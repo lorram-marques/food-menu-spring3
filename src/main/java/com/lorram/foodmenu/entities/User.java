@@ -23,6 +23,8 @@ public class User implements Serializable {
 	public User() {
 	}
 	
+	//TODO reviews
+	
 	public User(Long id, String name, String email) {
 		this.id = id;
 		this.name = name;
