@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -26,7 +27,10 @@ public class Review implements Serializable {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	// TODO ManyToOne
+	@ManyToOne
+	@JoinTable(name = "tb_review_meal",
+		joinColumns = @JoinColumn(name = "review_id"),
+		inverseJoinColumns = @JoinColumn(name = "meal_id"))	
 	private Meal meal;
 	
 	public Review() {
