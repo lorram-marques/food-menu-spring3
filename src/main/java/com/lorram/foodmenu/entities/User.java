@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,7 +27,8 @@ public class User implements Serializable {
 	public User() {
 	}
 	
-	List<Review> reviews = new ArrayList<>();
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<Review> reviews = new ArrayList<>();
 	
 	public User(Long id, String name, String email) {
 		this.id = id;
