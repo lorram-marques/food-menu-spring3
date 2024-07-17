@@ -62,6 +62,10 @@ public class Meal implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public List<Review> getReviews() {
+		return reviews;
+	}
 
 	@Override
 	public int hashCode() {
