@@ -16,7 +16,7 @@ import com.lorram.foodmenu.repositories.MealRepository;
 public class MealService {
 
 	@Autowired
-	public MealRepository repository;
+	private MealRepository repository;
 	
 	public Page<MealDTO> findAll(Pageable pageable) {
 		Page<Meal> list = repository.findAll(pageable);

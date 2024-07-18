@@ -16,7 +16,7 @@ import com.lorram.foodmenu.repositories.UserRepository;
 public class UserService {
 
 	@Autowired
-	public UserRepository repository;
+	private UserRepository repository;
 	
 	public Page<UserDTO> findAll(Pageable pageable) {
 		Page<User> list = repository.findAll(pageable);

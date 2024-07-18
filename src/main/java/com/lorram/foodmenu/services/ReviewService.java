@@ -18,7 +18,7 @@ import com.lorram.foodmenu.repositories.UserRepository;
 public class ReviewService {
 
 	@Autowired
-	public ReviewRepository repository;
+	private ReviewRepository repository;
 	
 	@Autowired
 	private MealRepository mealRepository;
