@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.lorram.foodmenu.dto.ReviewDTO;
+import com.lorram.foodmenu.entities.Meal;
 import com.lorram.foodmenu.entities.Review;
 import com.lorram.foodmenu.repositories.MealRepository;
 import com.lorram.foodmenu.repositories.ReviewRepository;
@@ -34,20 +35,16 @@ public class ReviewService {
 	public ReviewDTO findById(Long id) {
 		Optional<Review> entity = repository.findById(id);
 		Review review = entity.orElseThrow(() -> new RuntimeException());
-		return new ReviewDTO(review);
+		ReviewDTO dto = new ReviewDTO(review);
+		return dto;
 	}
 	
-	public ReviewDTO insert(ReviewDTO dto) {
+	public ReviewDTO insert(Long id, ReviewDTO dto) {
+		Optional<Meal> meal = mealRepository.findById(id);
+		dto = new ReviewDTO(dto.id(), dto.title(), dto.body(), dto.userId(), meal.get().getId());
 		Review review = new Review();
 		fromDto(dto, review);
-		review = repository.save(review);
-		return new ReviewDTO(review);
-	}
-	
-	public ReviewDTO update(ReviewDTO dto, Long id) {
-		Review review = repository.getReferenceById(id);
-		fromDto(dto, review);
-		review = repository.save(review);
+		repository.save(review);
 		return new ReviewDTO(review);
 	}
 	

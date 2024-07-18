@@ -1,6 +1,8 @@
 package com.lorram.foodmenu.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.lorram.foodmenu.dto.MealDTO;
+import com.lorram.foodmenu.dto.ReviewDTO;
 import com.lorram.foodmenu.entities.Meal;
 import com.lorram.foodmenu.repositories.MealRepository;
 
@@ -42,6 +45,13 @@ public class MealService {
 		meal = repository.save(meal);
 		return new MealDTO(meal);
 	}
+	
+	public List<ReviewDTO> findReviews(Long id) {
+		Optional<Meal> entity = repository.findById(id);
+		Meal meal = entity.orElseThrow(() -> new RuntimeException());
+		List<ReviewDTO> list = meal.getReviews().stream().map(x -> new ReviewDTO(x)).collect(Collectors.toList());
+		return list;
+	} 
 	
 	public void delete(Long id) {
 		try {
