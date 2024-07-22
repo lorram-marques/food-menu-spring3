@@ -14,6 +14,7 @@ import com.lorram.foodmenu.dto.MealDTO;
 import com.lorram.foodmenu.dto.ReviewDTO;
 import com.lorram.foodmenu.entities.Meal;
 import com.lorram.foodmenu.repositories.MealRepository;
+import com.lorram.foodmenu.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class MealService {
@@ -28,7 +29,7 @@ public class MealService {
 	
 	public MealDTO findById(Long id) {
 		Optional<Meal> entity = repository.findById(id);
-		Meal meal = entity.orElseThrow(() -> new RuntimeException());
+		Meal meal = entity.orElseThrow(() -> new ResourceNotFoundException(id));
 		return new MealDTO(meal);
 	}
 	
@@ -48,7 +49,7 @@ public class MealService {
 	
 	public List<ReviewDTO> findReviews(Long id) {
 		Optional<Meal> entity = repository.findById(id);
-		Meal meal = entity.orElseThrow(() -> new RuntimeException());
+		Meal meal = entity.orElseThrow(() -> new ResourceNotFoundException(id));
 		List<ReviewDTO> list = meal.getReviews().stream().map(x -> new ReviewDTO(x)).collect(Collectors.toList());
 		return list;
 	} 
@@ -58,7 +59,7 @@ public class MealService {
 			repository.deleteById(id);
 			} 
 		catch (EmptyResultDataAccessException e) {
-			throw new RuntimeException();
+			throw new ResourceNotFoundException(id);
 		}
 	}
 	

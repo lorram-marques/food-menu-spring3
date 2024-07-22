@@ -14,6 +14,7 @@ import com.lorram.foodmenu.entities.Review;
 import com.lorram.foodmenu.repositories.MealRepository;
 import com.lorram.foodmenu.repositories.ReviewRepository;
 import com.lorram.foodmenu.repositories.UserRepository;
+import com.lorram.foodmenu.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ReviewService {
@@ -34,7 +35,7 @@ public class ReviewService {
 	
 	public ReviewDTO findById(Long id) {
 		Optional<Review> entity = repository.findById(id);
-		Review review = entity.orElseThrow(() -> new RuntimeException());
+		Review review = entity.orElseThrow(() -> new ResourceNotFoundException(id));
 		ReviewDTO dto = new ReviewDTO(review);
 		return dto;
 	}
@@ -53,7 +54,7 @@ public class ReviewService {
 			repository.deleteById(id);
 			} 
 		catch (EmptyResultDataAccessException e) {
-			throw new RuntimeException();
+			throw new ResourceNotFoundException(id);
 		}
 	}
 	

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.lorram.foodmenu.dto.UserDTO;
 import com.lorram.foodmenu.entities.User;
 import com.lorram.foodmenu.repositories.UserRepository;
+import com.lorram.foodmenu.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -25,7 +26,7 @@ public class UserService {
 	
 	public UserDTO findById(Long id) {
 		Optional<User> entity = repository.findById(id);
-		User user = entity.orElseThrow(() -> new RuntimeException());
+		User user = entity.orElseThrow(() -> new ResourceNotFoundException(id));
 		return new UserDTO(user);
 	}
 	
@@ -48,7 +49,7 @@ public class UserService {
 			repository.deleteById(id);
 			} 
 		catch (EmptyResultDataAccessException e) {
-			throw new RuntimeException();
+			throw new ResourceNotFoundException(id);
 		}
 	}
 	
